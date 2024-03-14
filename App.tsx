@@ -1,10 +1,19 @@
 import { useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { TextInput, StyleSheet, Text, View } from 'react-native';
+import { TextInput, StyleSheet, Text, View, FlatList } from 'react-native';
 
 export default function App() {
   const [name, setName] = useState('Tharuka');
   const [age, setAge] = useState('28');
+
+  const [people, setPeople] = useState([
+    { name: 'Luigi', id: '1' },
+    { name: 'Mario', id: '2' },
+    { name: 'Radhi', id: '3' },
+    { name: 'Lakshi', id: '4' },
+    { name: 'Peach', id: '5' },
+    { name: 'Bower', id: '6' },
+    { name: 'Toad', id: '7' },
+  ]);
   return (
     <View style={styles.container}>
       <Text>Enter Name:</Text>
@@ -24,7 +33,12 @@ export default function App() {
       <Text>
         Name: {name}, Age: {age}
       </Text>
-      <StatusBar style='auto' />
+      <FlatList
+        keyExtractor={(item) => item.id}
+        numColumns={2}
+        data={people}
+        renderItem={({ item }) => <Text style={styles.peep}>{item.name}</Text>}
+      />
     </View>
   );
 }
@@ -33,8 +47,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: 10,
+    // alignItems: 'center',
+    // justifyContent: 'center',
   },
   input: {
     borderWidth: 1,
@@ -42,5 +57,13 @@ const styles = StyleSheet.create({
     padding: 8,
     margin: 10,
     width: 200,
+  },
+  peep: {
+    width: 150,
+    padding: 30,
+    backgroundColor: 'pink',
+    fontSize: 24,
+    marginHorizontal: 24,
+    marginVertical: 24,
   },
 });
