@@ -1,5 +1,12 @@
 import { useState } from 'react';
-import { TextInput, StyleSheet, Text, View, FlatList } from 'react-native';
+import {
+  TextInput,
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
 
 export default function App() {
   const [name, setName] = useState('Tharuka');
@@ -14,6 +21,15 @@ export default function App() {
     { name: 'Bower', id: '6' },
     { name: 'Toad', id: '7' },
   ]);
+
+  const pressHandler = (id: string) => {
+    console.log(id);
+    // setPeople(people.filter((peep) => peep.id != id));
+    setPeople((prev) => {
+      return prev.filter((peep) => peep.id != id);
+    });
+  };
+
   return (
     <View style={styles.container}>
       <Text>Enter Name:</Text>
@@ -37,7 +53,11 @@ export default function App() {
         keyExtractor={(item) => item.id}
         numColumns={2}
         data={people}
-        renderItem={({ item }) => <Text style={styles.peep}>{item.name}</Text>}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => pressHandler(item.id)}>
+            <Text style={styles.peep}>{item.name}</Text>
+          </TouchableOpacity>
+        )}
       />
     </View>
   );
@@ -47,9 +67,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    padding: 10,
-    // alignItems: 'center',
-    // justifyContent: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 40,
   },
   input: {
     borderWidth: 1,
